@@ -1,5 +1,7 @@
 import React from "react";
 import Loader from 'react-loader-spinner';
+import { axiosWithAuth } from "./axiosWithAuth";
+
 
 class Login extends React.Component {
     //setting state
@@ -15,7 +17,7 @@ class Login extends React.Component {
     handleChange = e => {
         this.setState({
             credentials: {
-                ...this.state.state.credentials,
+                ...this.state.credentials,
                 [e.target.name]: e.target.value
             }
         })
@@ -24,11 +26,11 @@ class Login extends React.Component {
     //creating onSubmit login
     login = e => {
         e.preventDefault();
-        axiosWithAuth()
-          .post('/login', this.state.credentials)
+         axiosWithAuth()
+          .post('/api/login', this.state.credentials)
           .then(res => {
             localStorage.setItem('token', JSON.stringify(res.data.payload));
-            this.props.history.push('/api/friends');
+            this.props.history.push('/protected');
           })
           .catch(err => console.log({ err }));
       };
